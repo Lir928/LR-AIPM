@@ -1,0 +1,35 @@
+{
+  "name": "prototype-reader-skill",
+  "version": "1.0.0",
+  "description": "使用 chrome-devtools-mcp 读取原型文件(如墨刀Modao原型、腾讯CoDesign原型等)并生成Vue代码的Skill",
+  "main": "example.js",
+  "scripts": {
+    "start": "node example.js",
+    "test": "node example.js"
+  },
+  "keywords": [
+    "prototype",
+    "modao",
+    "codesign",
+    "figma",
+    "vue",
+    "code-generation",
+    "chrome-devtools-mcp",
+    "mcp"
+  ],
+  "author": "CodeFree",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": ""
+  },
+  "homepage": ""
+}

@@ -1,0 +1,244 @@
+{
+  "skills": [
+    {
+      "name": "ai-studio-project-converter",
+      "description": "用于将 Google AI Studio React 项目转换为项目页面组件",
+      "keywords": ["AI Studio", "React 项目", "项目转换", "页面组件"]
+    },
+    {
+      "name": "api-debug-skill",
+      "description": "用于 API 接口调试和测试",
+      "keywords": ["API", "调试", "测试", "接口"]
+    },
+    {
+      "name": "axure-prototype-workflow",
+      "description": "用于处理 Axure 原型",
+      "keywords": ["Axure", "原型", "工作流", "处理"]
+    },
+    {
+      "name": "brainstorming",
+      "description": "用于通过协作对话将想法转化为设计",
+      "keywords": ["头脑风暴", "协作", "创意", "设计"]
+    },
+    {
+      "name": "code-review-standard",
+      "description": "用于 CTIS Cloud 代码审查标准",
+      "keywords": ["代码审查", "标准", "CTIS", "Cloud"]
+    },
+    {
+      "name": "crud-implementation",
+      "description": "用于 CRUD 功能实现最佳实践",
+      "keywords": ["CRUD", "实现", "最佳实践", "增删改查"]
+    },
+    {
+      "name": "ctis-java-best-dev",
+      "description": "用于 CTIS Java 最佳实践",
+      "keywords": ["CTIS", "Java", "最佳实践", "开发"]
+    },
+    {
+      "name": "dispatching-parallel-agents",
+      "description": "用于为独立任务调度并行代理",
+      "keywords": ["并行", "代理", "调度", "任务"]
+    },
+    {
+      "name": "docx",
+      "description": "用于 DOCX 创建、编辑和分析",
+      "keywords": ["DOCX", "Word", "文档", "编辑", "分析"]
+    },
+    {
+      "name": "executing-plans",
+      "description": "用于执行带有审查检查点的实施计划",
+      "keywords": ["执行", "计划", "实施", "审查"]
+    },
+    {
+      "name": "figma-to-code",
+      "description": "用于将 Figma 设计转换为 Vue 3 前端代码",
+      "keywords": ["Figma", "设计", "代码", "Vue 3", "前端"]
+    },
+    {
+      "name": "find-skills",
+      "description": "用于发现和安装代理技能",
+      "keywords": ["技能", "发现", "安装", "代理"]
+    },
+    {
+      "name": "finishing-a-development-branch",
+      "description": "用于完成开发工作并集成更改",
+      "keywords": ["开发", "分支", "完成", "集成"]
+    },
+    {
+      "name": "frontend-design-generator",
+      "description": "用于生成前端设计文档",
+      "keywords": ["前端", "设计", "文档", "生成"]
+    },
+    {
+      "name": "local-axure-workflow",
+      "description": "用于处理本地导出的 Axure 原型资源",
+      "keywords": ["Axure", "本地", "原型", "资源", "处理"]
+    },
+    {
+      "name": "markdown-to-word",
+      "description": "用于将 Markdown 文件转换为 Word 文档",
+      "keywords": ["Markdown", "Word", "转换", "文档"]
+    },
+    {
+      "name": "mcp-installer",
+      "description": "用于安装和配置 MCP 服务器",
+      "keywords": ["MCP", "安装", "配置", "服务器"]
+    },
+    {
+      "name": "modal-style-guide",
+      "description": "用于 Modal 弹出样式设计规范",
+      "keywords": ["Modal", "弹窗", "样式", "设计", "规范"]
+    },
+    {
+      "name": "pdf",
+      "description": "用于 PDF 处理操作",
+      "keywords": ["PDF", "处理", "操作", "文档"]
+    },
+    {
+      "name": "playwright-cli-test",
+      "description": "用于 Playwright CLI 自动化测试工作流",
+      "keywords": ["Playwright", "测试", "自动化", "CLI"]
+    },
+    {
+      "name": "pptx",
+      "description": "用于 PPTX 文件的创建、读取、编辑和分析",
+      "keywords": ["PPTX", "PowerPoint", "演示文稿", "创建", "编辑", "分析"]
+    },
+    {
+      "name": "prd",
+      "description": "用于协助撰写、完善与评审产品需求文档",
+      "keywords": ["PRD", "产品需求", "文档", "撰写", "评审"]
+    },
+    {
+      "name": "prototype-reader",
+      "description": "用于读取原型文件并提取页面结构",
+      "keywords": ["原型", "读取", "页面结构", "提取"]
+    },
+    {
+      "name": "prototype-to-code",
+      "description": "用于将在线原型转换为前端代码",
+      "keywords": ["原型", "代码", "转换", "前端"]
+    },
+    {
+      "name": "receiving-code-review",
+      "description": "用于接收代码审查反馈",
+      "keywords": ["代码审查", "反馈", "接收"]
+    },
+    {
+      "name": "requesting-code-review",
+      "description": "用于请求代码审查",
+      "keywords": ["代码审查", "请求"]
+    },
+    {
+      "name": "requirements-closure-designer",
+      "description": "用于将输入需求完善为结构化明确需求文档",
+      "keywords": ["需求", "完善", "结构化", "闭环"]
+    },
+    {
+      "name": "requirements-to-detailed-design",
+      "description": "用于将需求规格说明书转换为详细设计文档",
+      "keywords": ["需求", "设计", "详细", "转换"]
+    },
+    {
+      "name": "screenshot-page-workflow",
+      "description": "用于基于网页或 App 截图进行视觉分析与页面还原",
+      "keywords": ["截图", "视觉分析", "页面还原", "工作流"]
+    },
+    {
+      "name": "subagent-driven-development",
+      "description": "用于在当前会话中执行具有独立任务的实施计划",
+      "keywords": ["子代理", "开发", "实施计划", "独立任务"]
+    },
+    {
+      "name": "swagger-api-generator",
+      "description": "用于根据 Swagger 文档生成前端 API 调用代码",
+      "keywords": ["Swagger", "API", "生成", "前端", "代码"]
+    },
+    {
+      "name": "systematic-debugging",
+      "description": "用于系统地调试任何错误或意外行为",
+      "keywords": ["调试", "系统", "错误", "问题"]
+    },
+    {
+      "name": "test-driven-development",
+      "description": "用于测试驱动开发",
+      "keywords": ["测试", "驱动", "开发", "TDD"]
+    },
+    {
+      "name": "ui-ux-pro-max",
+      "description": "用于 UI/UX 设计智能",
+      "keywords": ["UI", "UX", "设计", "智能"]
+    },
+    {
+      "name": "user-manual-writer",
+      "description": "用于自动编写用户操作手册",
+      "keywords": ["用户手册", "操作说明", "编写", "文档"]
+    },
+    {
+      "name": "using-git-worktrees",
+      "description": "用于设置隔离的 Git 工作树",
+      "keywords": ["Git", "工作树", "隔离", "设置"]
+    },
+    {
+      "name": "using-superpowers",
+      "description": "用于如何找到和使用技能",
+      "keywords": ["技能", "使用", "查找", "superpowers"]
+    },
+    {
+      "name": "v0-project-converter",
+      "description": "用于将 V0 生成的 Next.js 项目转换为本项目页面组件",
+      "keywords": ["V0", "Next.js", "项目", "转换", "页面组件"]
+    },
+    {
+      "name": "verification-before-completion",
+      "description": "用于在声称工作完成前进行验证",
+      "keywords": ["验证", "完成", "检查", "测试"]
+    },
+    {
+      "name": "web-page-workflow",
+      "description": "用于处理普通网页资产提取与页面还原",
+      "keywords": ["网页", "资产提取", "页面还原", "工作流"]
+    }
+  ],
+  "keywordIndex": {
+    "API": ["api-debug-skill", "swagger-api-generator"],
+    "Axure": ["axure-prototype-workflow", "local-axure-workflow"],
+    "CRUD": ["crud-implementation"],
+    "DOCX": ["docx"],
+    "Figma": ["figma-to-code"],
+    "Git": ["using-git-worktrees"],
+    "Markdown": ["markdown-to-word"],
+    "MCP": ["mcp-installer"],
+    "Modal": ["modal-style-guide"],
+    "Next.js": ["v0-project-converter"],
+    "PDF": ["pdf"],
+    "Playwright": ["playwright-cli-test"],
+    "PPTX": ["pptx"],
+    "PRD": ["prd"],
+    "Swagger": ["swagger-api-generator"],
+    "TDD": ["test-driven-development"],
+    "UI": ["ui-ux-pro-max"],
+    "UX": ["ui-ux-pro-max"],
+    "Vue": ["figma-to-code"],
+    "调试": ["api-debug-skill", "systematic-debugging"],
+    "代码": ["figma-to-code", "prototype-to-code", "swagger-api-generator", "v0-project-converter"],
+    "代码审查": ["code-review-standard", "receiving-code-review", "requesting-code-review"],
+    "测试": ["api-debug-skill", "playwright-cli-test", "test-driven-development", "verification-before-completion"],
+    "产品需求": ["prd"],
+    "前端": ["figma-to-code", "frontend-design-generator", "prototype-to-code", "swagger-api-generator"],
+    "工作流": ["axure-prototype-workflow", "executing-plans", "local-axure-workflow", "screenshot-page-workflow", "web-page-workflow"],
+    "实施": ["executing-plans", "subagent-driven-development"],
+    "文档": ["docx", "frontend-design-generator", "markdown-to-word", "prd", "requirements-closure-designer", "requirements-to-detailed-design", "user-manual-writer"],
+    "设计": ["brainstorming", "figma-to-code", "frontend-design-generator", "modal-style-guide", "ui-ux-pro-max"],
+    "原型": ["axure-prototype-workflow", "local-axure-workflow", "prototype-reader", "prototype-to-code"],
+    "智能": ["ui-ux-pro-max"],
+    "技能": ["find-skills", "using-superpowers"],
+    "系统": ["systematic-debugging"],
+    "网页": ["screenshot-page-workflow", "web-page-workflow"],
+    "项目": ["ai-studio-project-converter", "finishing-a-development-branch", "v0-project-converter"],
+    "需求": ["prd", "requirements-closure-designer", "requirements-to-detailed-design"],
+    "用户手册": ["user-manual-writer"],
+    "转换": ["ai-studio-project-converter", "figma-to-code", "markdown-to-word", "prototype-to-code", "v0-project-converter"]
+  }
+}
