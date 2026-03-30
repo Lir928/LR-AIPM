@@ -23,9 +23,9 @@
 
 ### 步骤 3：逻辑闭环设计
 
-- **技能**：@requirements-to-detailed-design
-- **任务**：针对步骤 2 的文档，强制使用 Mermaid 语法绘制状态机和业务流转图，确保异常分支和边界条件无遗漏。
-- **输出**：带有时序图和流程图的完整 PRD。
+- **技能**：@requirements-to-detailed-design + @enterprise-product-designer
+- **任务**：针对步骤 2 的文档，强制使用 Mermaid 语法绘制状态机和业务流转图，确保异常分支和边界条件无遗漏。同时应用企业级 B 端产品设计规范，为每个核心页面绘制 ASCII 布局图，并输出包含字段名、数据类型、校验规则的严谨表格。
+- **输出**：带有时序图、流程图、ASCII 布局图和字段级描述表格的完整 PRD。
 
 ### 步骤 4：生成 Axhub 原型 Prompt
 
