@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
-const { execSync, exec } = require('child_process');
+const { execSync, spawn } = require('child_process');
 
 // 更新 active_project.json 文件为 demo-task
 const activeProjectPath = path.join(__dirname, '..', 'active_project.json');
@@ -13,18 +13,18 @@ fs.writeFileSync(activeProjectPath, JSON.stringify(activeProjectContent, null, 2
 console.log('Switched to project: demo-task');
 console.log('Active project file updated at:', activeProjectPath);
 
-// 检查是否已经有 axhub-make 进程在运行
+// 停止可能存在的旧进程
+console.log('Checking for existing axhub-make processes...');
 try {
   const result = execSync('ps aux | grep "vite --open" | grep -v grep', { stdio: 'pipe' });
-  if (result.toString().trim()) {
-    console.log('✅ axhub-make application is already running!');
-    console.log('The application is running at: http://localhost:51720/');
-    console.log('Opening the application in your browser...');
-    
-    // 打开浏览器
-    exec('open http://localhost:51720/');
-    process.exit(0);
-  }
+  const processes = result.toString().trim().split('\n');
+  processes.forEach(processLine => {
+    const pid = processLine.split(/\s+/)[1];
+    if (pid) {
+      console.log('Stopping existing process with PID:', pid);
+      execSync('kill ' + pid);
+    }
+  });
 } catch (error) {
   // 没有进程在运行，继续启动
 }
@@ -37,13 +37,15 @@ try {
   const axhubMakePath = path.join(__dirname, '..', 'axhub-make');
   console.log('Changing directory to:', axhubMakePath);
   
-  // 使用 exec 执行启动命令，在后台运行
-  exec('cd "' + axhubMakePath + '" && npm run dev', (error, stdout, stderr) => {
-    if (error) {
-      console.error('Error starting axhub-make:', error.message);
-      process.exit(1);
-    }
+  // 使用 spawn 执行启动命令，在后台运行
+  const child = spawn('npm', ['run', 'dev'], {
+    cwd: axhubMakePath,
+    detached: true,
+    stdio: 'ignore'
   });
+  
+  // 让子进程独立运行
+  child.unref();
   
   console.log('✅ demo-task has been started successfully!');
   console.log('The application is running at: http://localhost:51720/');
@@ -51,8 +53,15 @@ try {
   
   // 等待几秒钟让服务器启动，然后打开浏览器
   setTimeout(() => {
-    exec('open http://localhost:51720/');
+    try {
+      execSync('open http://localhost:51720/', { stdio: 'ignore' });
+    } catch (error) {
+      // 浏览器打开失败，忽略错误
+    }
   }, 3000);
+  
+  // 立即退出脚本，避免终端卡住
+  process.exit(0);
 } catch (error) {
   console.error('Error starting axhub-make:', error.message);
   process.exit(1);
