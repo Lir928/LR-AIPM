@@ -1,0 +1,17 @@
+{
+  "name": "ai-prototype-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI原型自动化试验场",
+  "workspaces": [
+    "projects/*"
+  ],
+  "scripts": {
+    "switch": "node scripts/switch-project.js",
+    "dev:axhub-make": "cd axhub-make && npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
