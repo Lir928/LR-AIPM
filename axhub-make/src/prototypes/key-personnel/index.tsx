@@ -3,10 +3,23 @@ import { Button, Input, Table, Card, Tabs, Form, Select, DatePicker, Statistic, 
 import { UserOutlined, LockOutlined, SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, ExportOutlined, EyeOutlined, NotificationOutlined, BarChartOutlined, SettingOutlined, HomeOutlined, TeamOutlined, UserAddOutlined, AlertOutlined, KeyOutlined, PieChartOutlined } from '@ant-design/icons';
 import ReactECharts from 'echarts-for-react';
 
+// 定义人员类型接口
+interface Person {
+  id: string;
+  name: string;
+  gender: string;
+  age: number;
+  department: string;
+  position: string;
+  level: string;
+  status: string;
+  entryDate: string;
+  lastUpdate: string;
+}
+
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TabPane } = Tabs;
-const { Column } = Table;
 
 // 模拟数据
 const keyPersonnelData = [
@@ -47,7 +60,7 @@ const levelData = [
 
 const KeyPersonnelManagement: React.FC = () => {
   const [activeTab, setActiveTab] = useState('login');
-  const [selectedPerson, setSelectedPerson] = useState<any>(null);
+  const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [isStatusModalVisible, setIsStatusModalVisible] = useState(false);
@@ -256,12 +269,12 @@ const KeyPersonnelManagement: React.FC = () => {
                   {/* 近期状态变更 */}
                   <Card title="近期状态变更" style={{ marginBottom: 24 }}>
                     <Table dataSource={statusHistoryData} rowKey="id">
-                      <Column title="人员ID" dataIndex="personId" />
-                      <Column title="旧状态" dataIndex="oldStatus" />
-                      <Column title="新状态" dataIndex="newStatus" />
-                      <Column title="变更时间" dataIndex="changeTime" />
-                      <Column title="操作人" dataIndex="operator" />
-                      <Column title="变更原因" dataIndex="reason" />
+                      <Table.Column title="人员ID" dataIndex="personId" />
+                      <Table.Column title="旧状态" dataIndex="oldStatus" />
+                      <Table.Column title="新状态" dataIndex="newStatus" />
+                      <Table.Column title="变更时间" dataIndex="changeTime" />
+                      <Table.Column title="操作人" dataIndex="operator" />
+                      <Table.Column title="变更原因" dataIndex="reason" />
                     </Table>
                   </Card>
 
@@ -308,17 +321,17 @@ const KeyPersonnelManagement: React.FC = () => {
                   
                   <Card>
                     <Table dataSource={keyPersonnelData} rowKey="id">
-                      <Column title="ID" dataIndex="id" />
-                      <Column title="姓名" dataIndex="name" />
-                      <Column title="性别" dataIndex="gender" />
-                      <Column title="年龄" dataIndex="age" />
-                      <Column title="部门" dataIndex="department" />
-                      <Column title="职位" dataIndex="position" />
-                      <Column title="级别" dataIndex="level" />
-                      <Column title="状态" dataIndex="status" />
-                      <Column title="入职日期" dataIndex="entryDate" />
-                      <Column title="最后更新" dataIndex="lastUpdate" />
-                      <Column 
+                      <Table.Column title="ID" dataIndex="id" />
+                      <Table.Column title="姓名" dataIndex="name" />
+                      <Table.Column title="性别" dataIndex="gender" />
+                      <Table.Column title="年龄" dataIndex="age" />
+                      <Table.Column title="部门" dataIndex="department" />
+                      <Table.Column title="职位" dataIndex="position" />
+                      <Table.Column title="级别" dataIndex="level" />
+                      <Table.Column title="状态" dataIndex="status" />
+                      <Table.Column title="入职日期" dataIndex="entryDate" />
+                      <Table.Column title="最后更新" dataIndex="lastUpdate" />
+                      <Table.Column 
                         title="操作" 
                         render={(text, record) => (
                           <div style={{ display: 'flex', gap: 8 }}>
@@ -348,10 +361,10 @@ const KeyPersonnelManagement: React.FC = () => {
                   
                   <Card>
                     <Table dataSource={roleData} rowKey="id">
-                      <Column title="角色ID" dataIndex="id" />
-                      <Column title="角色名称" dataIndex="roleName" />
-                      <Column title="权限" dataIndex="permissions" />
-                      <Column 
+                      <Table.Column title="角色ID" dataIndex="id" />
+                      <Table.Column title="角色名称" dataIndex="roleName" />
+                      <Table.Column title="权限" dataIndex="permissions" />
+                      <Table.Column 
                         title="操作" 
                         render={() => (
                           <div style={{ display: 'flex', gap: 8 }}>
