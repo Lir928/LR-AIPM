@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "archiver": "^7.0.1",
+    "echarts-for-react": "^3.0.6",
     "extract-zip": "^2.0.1",
     "formidable": "^3.5.4",
     "iconv-lite": "^0.7.1",

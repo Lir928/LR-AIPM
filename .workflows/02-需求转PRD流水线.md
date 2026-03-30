@@ -69,7 +69,7 @@
 ## 标准接力提示语
 
 ```
-✅ 需求文档和 Prompt 已生成。已为您打开 `YYYYMMDD-[功能名称].md`，并成功生成了 `prompts/YYYYMMDD-[功能名称]-Prompt.md`。如果您修改了需求文档，请回复 `执行Prompt同步`；如果确认无误，请回复 `执行产研流水线`。
+✅ 需求文档和 Prompt 已生成。已为您打开 `YYYYMMDD-[功能名称].md`，并成功生成了 `prompts/YYYYMMDD-[功能名称]-Prompt.md`。如果您修改了需求文档，请回复 `执行Prompt同步`；如果确认无误，请回复 `执行原型生成`。
 🚀 Axhub 引擎已为您启动，请点击上方 Localhost 链接打开浏览器，将 Prompt 粘贴至界面中进行高保真原型生成。
 ```
 
