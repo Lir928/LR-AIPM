@@ -8,8 +8,16 @@ import {
   createPreviewHostOptions,
   replacePreviewLoaderScript,
 } from '../previewHost';
+import { buildPreviewTitle, readEntryDisplayName } from '../../utils/previewTitle';
 
 type HtmlResponder = (html: string, transformUrl?: string) => Promise<void>;
+
+function replaceDevTemplateBootstrapScript(html: string, bootstrapImportPath: string): string {
+  return html.replace(
+    /  <script type="module" src=["']\/assets\/dev-template-bootstrap\.js(?:\?[^"']*)?["']><\/script>/,
+    `  <script type="module">\n    import ${JSON.stringify(bootstrapImportPath)};\n  </script>`,
+  );
+}
 
 export async function handleIndexHtml(
   req: IncomingMessage,
@@ -31,6 +39,7 @@ export async function handleIndexHtml(
 
     if (['components', 'prototypes', 'themes'].includes(type)) {
       const urlPath = encodeRoutePath(`/${type}/${name}`);
+      const moduleImportPath = `/${type}/${name}`;
       let tsxPath: string;
       let basePath: string;
 
@@ -49,13 +58,19 @@ export async function handleIndexHtml(
       logVirtualHtmlDebug('检查 TSX 文件:', tsxPath, '存在:', fs.existsSync(tsxPath));
 
       if (fs.existsSync(tsxPath)) {
-        const typeLabel = type === 'components' ? 'Component' : type === 'prototypes' ? 'Prototype' : 'Theme';
-        const title = versionId
-          ? `${typeLabel}: ${name} (版本: ${versionId}) - Dev Preview`
-          : `${typeLabel}: ${name} - Dev Preview`;
+        const displayName = readEntryDisplayName(tsxPath);
+        const title = buildPreviewTitle({
+          group: type,
+          name,
+          displayName,
+          mode: 'dev',
+        });
+        // Vite 的 html-proxy/import-analysis 在虚拟 HTML 模块里解析 import 时，
+        // 对包含中文目录名的百分号编码路径兼容性不稳定。这里保留页面 URL 为编码形式，
+        // 但模块 import 使用原始路由路径，让 Vite 能正确映射到 src 下的真实文件。
         const entryImportPath = versionId
           ? `/@fs/${tsxPath}`
-          : `${urlPath}/index.tsx`;
+          : `${moduleImportPath}/index.tsx`;
         const hackCssPath = path.resolve(process.cwd(), 'src', type, name, 'hack.css');
         const previewHostModuleCode = createPreviewHostModuleCode(
           createPreviewHostOptions({
@@ -72,10 +87,7 @@ export async function handleIndexHtml(
 
         let html = devTemplate.replace(/\{\{TITLE\}\}/g, title);
         html = replacePreviewLoaderScript(html, previewHostModuleCode);
-        html = html.replace(
-          '  <script type="module" src="/assets/dev-template-bootstrap.js"></script>',
-          `  <script type="module">\n    import ${JSON.stringify(`/@fs/${bootstrapModulePath}`)};\n  </script>`,
-        );
+        html = replaceDevTemplateBootstrapScript(html, `/@fs/${bootstrapModulePath}`);
 
         // 🔥 添加 <base> 标签来修正相对路径基准（重要！）
         // 新路径格式 /prototypes/ref-antd 会被浏览器当作目录，导致相对路径解析错误

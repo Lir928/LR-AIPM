@@ -6,27 +6,26 @@
  */
 
 import './style.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { ConfigProvider } from 'antd';
 import { ThemeShell, NavGroup, NavItem, MarkdownViewer } from '../../common/ThemeShell';
 import tokens from './designToken.json';
 
-// Import Foundations
-import { Colors } from './foundations/Colors';
-import { TypographySection } from './foundations/Typography';
-import { Spacing } from './foundations/Spacing';
-import { IconsSection } from './foundations/Icons';
-import { Shadows } from './foundations/Shadows';
-import { Radius } from './foundations/Radius';
+const Colors = lazy(() => import('./foundations/Colors').then(m => ({ default: m.Colors })));
+const TypographySection = lazy(() => import('./foundations/Typography').then(m => ({ default: m.TypographySection })));
+const Spacing = lazy(() => import('./foundations/Spacing').then(m => ({ default: m.Spacing })));
+const IconsSection = lazy(() => import('./foundations/Icons').then(m => ({ default: m.IconsSection })));
+const Shadows = lazy(() => import('./foundations/Shadows').then(m => ({ default: m.Shadows })));
+const Radius = lazy(() => import('./foundations/Radius').then(m => ({ default: m.Radius })));
+const ButtonSection = lazy(() => import('./components/Button').then(m => ({ default: m.ButtonSection })));
+const InputSection = lazy(() => import('./components/Input').then(m => ({ default: m.InputSection })));
+const CardSection = lazy(() => import('./components/Card').then(m => ({ default: m.CardSection })));
+const LoginTemplate = lazy(() => import('./templates/LoginTemplate').then(m => ({ default: m.LoginTemplate })));
+const DashboardTemplate = lazy(() => import('./templates/DashboardTemplate').then(m => ({ default: m.DashboardTemplate })));
 
-// Import Components
-import { ButtonSection } from './components/Button';
-import { InputSection } from './components/Input';
-import { CardSection } from './components/Card';
-
-// Import Templates
-import { LoginTemplate } from './templates/LoginTemplate';
-import { DashboardTemplate } from './templates/DashboardTemplate';
+const LoadingFallback = () => (
+  <div className="text-center py-12" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>加载中...</div>
+);
 
 // Navigation Groups
 const NAV_GROUPS: NavGroup[] = [
@@ -74,41 +73,41 @@ const Component: React.FC = () => {
     switch (activeTab) {
       case 'design-spec':
         return designSpec ? <MarkdownViewer content={designSpec} /> : (
-          <div className="text-center py-12" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>加载设计规范中...</div>
+          <LoadingFallback />
         );
 
       case 'colors':
-        return <Colors tokens={baseTokens} />;
+        return <Suspense fallback={<LoadingFallback />}><Colors tokens={baseTokens} /></Suspense>;
 
       case 'typography':
-        return <TypographySection tokens={baseTokens} />;
+        return <Suspense fallback={<LoadingFallback />}><TypographySection tokens={baseTokens} /></Suspense>;
 
       case 'spacing':
-        return <Spacing tokens={baseTokens} />;
+        return <Suspense fallback={<LoadingFallback />}><Spacing tokens={baseTokens} /></Suspense>;
 
       case 'icons':
-        return <IconsSection tokens={baseTokens} />;
+        return <Suspense fallback={<LoadingFallback />}><IconsSection tokens={baseTokens} /></Suspense>;
 
       case 'shadows':
-        return <Shadows tokens={baseTokens} />;
+        return <Suspense fallback={<LoadingFallback />}><Shadows tokens={baseTokens} /></Suspense>;
 
       case 'radius':
-        return <Radius tokens={baseTokens} />;
+        return <Suspense fallback={<LoadingFallback />}><Radius tokens={baseTokens} /></Suspense>;
 
       case 'buttons':
-        return <ButtonSection tokens={baseTokens} />;
+        return <Suspense fallback={<LoadingFallback />}><ButtonSection tokens={baseTokens} /></Suspense>;
 
       case 'inputs':
-        return <InputSection tokens={baseTokens} />;
+        return <Suspense fallback={<LoadingFallback />}><InputSection tokens={baseTokens} /></Suspense>;
 
       case 'cards':
-        return <CardSection tokens={baseTokens} />;
+        return <Suspense fallback={<LoadingFallback />}><CardSection tokens={baseTokens} /></Suspense>;
 
       case 'login':
-        return <LoginTemplate />;
+        return <Suspense fallback={<LoadingFallback />}><LoginTemplate /></Suspense>;
 
       case 'dashboard':
-        return <DashboardTemplate />;
+        return <Suspense fallback={<LoadingFallback />}><DashboardTemplate /></Suspense>;
 
       default:
         return (

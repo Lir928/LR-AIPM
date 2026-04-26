@@ -502,7 +502,6 @@ import cn.chinatelecom.cq.ctis.{module}.data.service.{EntityName}DbService;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -527,7 +526,7 @@ public class {EntityName}ServiceImpl extends BasicServiceImpl<{EntityName}DbServ
                 .orElseThrow(() -> new DxNotFoundException({Module}404ExceptionEnum.NOT_FOUND_NO_DATA));
 
         {EntityName}Response response = new {EntityName}Response();
-        BeanUtils.copyProperties(entity, response);
+        {EntityName}Response response = {EntityName}Mapper.INSTANCE.toResponse(entity);
         return response;
     }
 
@@ -539,8 +538,7 @@ public class {EntityName}ServiceImpl extends BasicServiceImpl<{EntityName}DbServ
             throw new DxConflictException({Module}409ExceptionEnum.CONFLICT_{UNIQUE_FIELD});
         }
 
-        {EntityName} entity = new {EntityName}();
-        BeanUtils.copyProperties(request, entity);
+        {EntityName} entity = {EntityName}Mapper.INSTANCE.toEntity(request);
         {entityName}DbService.save(entity);
         return entity.getId();
     }

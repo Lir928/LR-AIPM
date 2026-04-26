@@ -22,6 +22,8 @@ export interface ClientMeta {
   connectedAt: number;
 }
 
+const MAX_UPLOAD_BYTES = 100 * 1024 * 1024;
+
 interface UploadSession {
   transferId: string;
   pageName: string;
@@ -314,6 +316,13 @@ export function websocketPlugin(): Plugin {
               return;
             }
 
+            if (type === 'sync-widget-content' || type === 'sync-page-content') {
+              res.statusCode = 410;
+              res.setHeader('Content-Type', 'application/json; charset=utf-8');
+              res.end(JSON.stringify({ error: 'Figma 同步已下线，请使用导出 Make' }));
+              return;
+            }
+
             // 验证 data
             if (data === undefined || data === null) {
               res.statusCode = 400;
@@ -540,6 +549,9 @@ function handleMessage(
         if (context.uploadSessions.has(transferId)) {
           return sendWsMessage(ws, { type: 'chrome-export:error', transferId, message: 'transferId already exists' });
         }
+        if (typeof data.totalBytes === 'number' && data.totalBytes > MAX_UPLOAD_BYTES) {
+          return sendWsMessage(ws, { type: 'chrome-export:error', transferId, message: `totalBytes exceeds max limit (${MAX_UPLOAD_BYTES} bytes)` });
+        }
 
         const transferDir = path.join(context.projectRoot, 'temp', 'chrome-export', transferId);
         const filesRoot = mode === 'files' ? path.join(transferDir, 'files') : undefined;
@@ -594,9 +606,14 @@ function handleMessage(
 
         if (!session.chunks.has(chunkIndex)) {
           const buffer = Buffer.from(chunkData, 'base64');
+          const newReceivedBytes = session.receivedBytes + buffer.byteLength;
+          if (newReceivedBytes > MAX_UPLOAD_BYTES) {
+            context.uploadSessions.delete(transferId);
+            return sendWsMessage(ws, { type: 'chrome-export:error', transferId, message: `upload exceeds max size limit (${MAX_UPLOAD_BYTES} bytes)` });
+          }
           session.chunks.set(chunkIndex, buffer);
           session.receivedChunks = session.chunks.size;
-          session.receivedBytes += buffer.byteLength;
+          session.receivedBytes = newReceivedBytes;
         }
 
         sendWsMessage(ws, {

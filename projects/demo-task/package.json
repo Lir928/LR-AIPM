@@ -1,0 +1,15 @@
+{
+  "name": "demo-task",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AIPM Workflows 示例项目",
+  "scripts": {
+    "dev": "echo 'demo-task 是静态归档项目，无需启动开发服务器。使用 npm run dev:axhub-make 启动原型引擎。'"
+  },
+  "keywords": [
+    "demo",
+    "aipm"
+  ],
+  "author": "AIPM Workflows Team",
+  "license": "MIT"
+}

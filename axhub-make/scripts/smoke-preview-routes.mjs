@@ -1,8 +1,32 @@
 #!/usr/bin/env node
 
-const baseUrl = process.argv[2] || 'http://localhost:51720';
-const targets = process.argv.slice(3).length > 0
-  ? process.argv.slice(3)
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function resolveBaseUrlFromDevInfo() {
+  try {
+    const devInfoPath = path.resolve(__dirname, '../.axhub/make/.dev-server-info.json');
+    if (!fs.existsSync(devInfoPath)) return 'http://localhost:5173';
+    const info = JSON.parse(fs.readFileSync(devInfoPath, 'utf8'));
+    const host = info && info.host ? info.host : 'localhost';
+    const port = info && info.port ? Number(info.port) : 0;
+    if (!port) return 'http://localhost:5173';
+    return 'http://' + host + ':' + String(port);
+  } catch (e) {
+    return 'http://localhost:5173';
+  }
+}
+
+const arg2 = process.argv[2] || '';
+const hasBaseUrlArg = arg2.startsWith('http://') || arg2.startsWith('https://');
+const baseUrl = hasBaseUrlArg ? arg2 : resolveBaseUrlFromDevInfo();
+const targetArgs = hasBaseUrlArg ? process.argv.slice(3) : process.argv.slice(2);
+const targets = targetArgs.length > 0
+  ? targetArgs
   : [
       '/prototypes/ref-antd-copy',
       '/components/ref-button',

@@ -117,7 +117,7 @@ const Component = forwardRef<AxureHandle, AxureProps>(function LineChart(innerPr
   const currentData = currentDataState[0];
   const setCurrentData = currentDataState[1];
 
-  const emitEvent = useCallback(function (eventName: string, payload?: any) {
+  const emitEvent = useCallback(function (eventName: string, payload?: string) {
     try {
       onEventHandler(eventName, payload);
     } catch (error) {
@@ -200,11 +200,11 @@ const Component = forwardRef<AxureHandle, AxureProps>(function LineChart(innerPr
 
         // 绑定事件
         chartInstance.on('click', function (params: any) {
-          emitEvent('onClick', params);
+          emitEvent('onClick', JSON.stringify(params));
         });
 
         chartInstance.on('datazoom', function (params: any) {
-          emitEvent('onDataZoom', params);
+          emitEvent('onDataZoom', JSON.stringify(params));
         });
 
         chartInstance.on('legendselectchanged', function (params: any) {
@@ -230,8 +230,13 @@ const Component = forwardRef<AxureHandle, AxureProps>(function LineChart(innerPr
 
   // 更新图表数据（当数据或配置变化时）
   useEffect(function () {
-    if (!chartInstanceRef.current) {
+    if (!chartInstanceRef.current && !container) {
       return;
+    }
+
+    // If chart not yet initialized but container exists, try initializing
+    if (!chartInstanceRef.current && container) {
+      return; // Let the init effect handle it; it will set the latest option
     }
 
     const option = getChartOption();

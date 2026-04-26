@@ -4,23 +4,9 @@ import fs from 'fs';
 import path from 'path';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
-
-// 读取当前激活的项目
-let activeProject = 'prototypes';
-try {
-  const activeProjectPath = path.resolve(process.cwd(), '../active_project.json');
-  if (fs.existsSync(activeProjectPath)) {
-    const activeProjectConfig = JSON.parse(fs.readFileSync(activeProjectPath, 'utf8'));
-    if (activeProjectConfig.current) {
-      activeProject = activeProjectConfig.current;
-    }
-  }
-} catch (error) {
-  console.warn('Failed to read active_project.json, using default prototypes directory:', error);
-}
+import { createVendorAliases, loadVendorPackagesConfig } from './scripts/utils/vendor-packages.mjs';
 
 // ── 构建模式也需要的插件（静态导入） ──
-import { addAxhubMarker } from './vite-plugins/addAxhubMarker';
 import { axhubComponentEnforcer } from './vite-plugins/axhubComponentEnforcer';
 import { forceInlineDynamicImportsOff } from './vite-plugins/forceInlineDynamicImportsOff';
 import { injectStablePageIds } from './vite-plugins/injectStablePageIds';
@@ -36,10 +22,10 @@ import { readEntriesManifest, scanProjectEntries, writeEntriesManifestAtomic } f
 async function loadServePlugins(): Promise<Plugin[]> {
   const [
     { aiCliPlugin },
+    { annotationApiPlugin },
     { autoDebugPlugin },
     { axureBridgeProxyPlugin },
     { canvasApiPlugin },
-    { ccConnectApiPlugin },
     { codeReviewPlugin },
     { configApiPlugin },
     { dataManagementApiPlugin },
@@ -55,6 +41,7 @@ async function loadServePlugins(): Promise<Plugin[]> {
     { serveAdminPlugin },
     { sourceApiPlugin },
     { specDocApiPlugin },
+    { subPagesApiPlugin },
     { templatesApiPlugin },
     { themesApiPlugin },
     { unsetReferenceApiPlugin },
@@ -65,10 +52,10 @@ async function loadServePlugins(): Promise<Plugin[]> {
     { writeDevServerInfoPlugin },
   ] = await Promise.all([
     import('./vite-plugins/aiCliPlugin'),
+    import('./vite-plugins/annotationApiPlugin'),
     import('./vite-plugins/autoDebugPlugin'),
     import('./vite-plugins/axureBridgeProxyPlugin'),
     import('./vite-plugins/canvasApiPlugin'),
-    import('./vite-plugins/ccConnectApiPlugin'),
     import('./vite-plugins/codeReviewPlugin'),
     import('./vite-plugins/configApiPlugin'),
     import('./vite-plugins/dataManagementApiPlugin'),
@@ -84,6 +71,7 @@ async function loadServePlugins(): Promise<Plugin[]> {
     import('./vite-plugins/serveAdminPlugin'),
     import('./vite-plugins/sourceApiPlugin'),
     import('./vite-plugins/specDocApiPlugin'),
+    import('./vite-plugins/subPagesApiPlugin'),
     import('./vite-plugins/templatesApiPlugin'),
     import('./vite-plugins/themesApiPlugin'),
     import('./vite-plugins/unsetReferenceApiPlugin'),
@@ -112,6 +100,7 @@ async function loadServePlugins(): Promise<Plugin[]> {
     uploadDocsApiPlugin(),
     sourceApiPlugin(),
     specDocApiPlugin(),
+    subPagesApiPlugin(),
     unsetReferenceApiPlugin(),
     themesApiPlugin(),
     fileSystemApiPlugin(),
@@ -120,13 +109,15 @@ async function loadServePlugins(): Promise<Plugin[]> {
     codeReviewPlugin(),
     autoDebugPlugin(),
     configApiPlugin(),
+    annotationApiPlugin(),
     aiCliPlugin(),
     gitVersionApiPlugin(),
-    ccConnectApiPlugin(),
   ];
 }
 
 const projectRoot = process.cwd();
+const vendorPackagesConfig = loadVendorPackagesConfig(projectRoot);
+const vendorAliases = createVendorAliases(projectRoot, vendorPackagesConfig);
 const configPath = path.resolve(projectRoot, MAKE_CONFIG_RELATIVE_PATH);
 let axhubConfig: any = { server: { host: 'localhost', allowLAN: true } };
 if (fs.existsSync(configPath)) {
@@ -139,7 +130,7 @@ if (fs.existsSync(configPath)) {
 
 writeEntriesManifestAtomic(
   projectRoot,
-  scanProjectEntries(projectRoot, ['components', activeProject, 'themes']),
+  scanProjectEntries(projectRoot, ['components', 'prototypes', 'themes']),
 );
 const entries = readEntriesManifest(projectRoot);
 
@@ -175,7 +166,6 @@ export default defineConfig(async ({ command }) => {
         jsxRuntime: 'classic',
         babel: { configFile: false, babelrc: false }
       }),
-      isIifeBuild ? addAxhubMarker() : null,
       isIifeBuild ? axhubComponentEnforcer(jsEntries[entryKey as string]) : null
     ].filter(Boolean) as Plugin[],
 
@@ -184,12 +174,19 @@ export default defineConfig(async ({ command }) => {
     optimizeDeps: {
       // React Fast Refresh 在开发态会接管 react/react-dom 的依赖预处理。
       // 这里不要再把它们排除掉，否则会和 plugin-react 的 include 冲突。
-      exclude: []
+      exclude: [],
+      include: [
+        'lucide-react'
+      ]
     },
 
     resolve: {
       alias: [
         { find: '@', replacement: path.resolve(projectRoot, 'src') },
+        ...vendorAliases.map((alias) => ({
+          find: new RegExp(`^${alias.packageName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`),
+          replacement: alias.runtimeEntryAbsolute,
+        })),
         !isIifeBuild && !isServe && {
           find: /^react$/,
           replacement: path.resolve(projectRoot, 'src/common/react-shim.js')
@@ -209,10 +206,21 @@ export default defineConfig(async ({ command }) => {
       ].filter(Boolean) as { find: string | RegExp; replacement: string }[]
     },
 
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler'
+        },
+        sass: {
+          api: 'modern-compiler'
+        }
+      }
+    },
+
     server: {
-      port: 51720, // 默认从 51720 开始，如果被占用会自动尝试 51721, 51722...
-      strictPort: false, // 端口被占用时自动尝试下一个端口
-      host: '0.0.0.0', // 统一使用 0.0.0.0 绑定，确保端口检测正确
+      port: axhubConfig?.server?.port || 51720,
+      strictPort: false,
+      host: axhubConfig?.server?.host || '0.0.0.0',
       open: false, // 开发态不要自动打开浏览器，避免端口回退时误打开 51721/51722 等页面
       cors: true,
       // HMR 配置
@@ -225,7 +233,7 @@ export default defineConfig(async ({ command }) => {
         overlay: false
       },
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': 'http://localhost:*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization'
       }
@@ -280,6 +288,8 @@ export default defineConfig(async ({ command }) => {
       include: [
         'tests/**/*.test.ts',
         'tests/**/*.test.tsx',
+        'scripts/**/*.test.ts',
+        'scripts/**/*.test.mjs',
         'vite-plugins/**/*.test.ts',
       ],
       root: '.',

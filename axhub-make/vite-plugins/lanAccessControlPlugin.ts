@@ -72,13 +72,6 @@ export function lanAccessControlPlugin(): Plugin {
                   color: #666;
                   line-height: 1.6;
                 }
-                .ip {
-                  background: #f5f5f5;
-                  padding: 10px;
-                  border-radius: 5px;
-                  font-family: monospace;
-                  margin: 20px 0;
-                }
               </style>
             </head>
             <body>
@@ -86,7 +79,6 @@ export function lanAccessControlPlugin(): Plugin {
                 <h1>🚫 访问被拒绝</h1>
                 <p>此服务器已禁用局域网访问。</p>
                 <p>只允许本地访问（localhost/127.0.0.1）。</p>
-                <div class="ip">您的 IP: ${clientIP}</div>
                 <p style="font-size: 12px; color: #999;">
                   如需允许局域网访问，请在配置文件中设置 allowLAN: true 并重启服务器
                 </p>

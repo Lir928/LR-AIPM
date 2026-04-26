@@ -21,7 +21,7 @@ reverse-prd-generator
 - 可选参数：分析深度、重点关注模块
 
 ## 输出
-- 在 `projects/[项目名称]/docs/` 生成 `03-存量业务逻辑基线.md` 文件
+- 在 `projects/[项目名称]/legacy-assets/reports/` 生成 `03-存量业务逻辑基线.md` 文件
 - 包含系统功能模块列表
 - 包含详细的业务流程描述
 - 包含技术债分析

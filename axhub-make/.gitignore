@@ -10,6 +10,9 @@ lerna-debug.log*
 dist/
 tests/
 vite-plugins/**/*.test.ts
+!vite-plugins/jagat-ui-clone-conversion.test.ts
+!vendor/**/dist/
+!vendor/**/dist/**
 *.tsbuildinfo
 
 # Vite
@@ -24,7 +27,11 @@ vite.config.*.timestamp-*
 .env.development
 
 # Local configuration (runtime-generated)
-.axhub/make/
+.axhub/make/*
+!.axhub/make/skills/
+!.axhub/make/README.md
+.axhub/make/skills/*.json
+!.axhub/make/skills/*.default.json
 components.json
 .dev-server-info.json
 entries.json

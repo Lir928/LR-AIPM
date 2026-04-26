@@ -61,50 +61,18 @@ export function assertValidKeyName(name: string, context = 'KeyDesc'): asserts n
 export type DataKey = { name: string; desc: string };
 export type DataDesc = { name: string; desc: string; keys: DataKey[] };
 
+import type { AttributeComponentProps } from './config-panel-types';
+
 /**
  * 配置项定义
  * Configuration item definition
- * 参考 AttributeComponentProps 结构
+ * Extends AttributeComponentProps with additional type values
  */
-export type ConfigItem = {
-  /** 组件类型 Component type */
-  type?:
-  | 'group'           // 分组
-  | 'input'           // 文本输入框
-  | 'inputNumber'     // 数字输入框
-  | 'checkbox'        // 复选框
-  | 'slider'          // 滑块
-  | 'select'          // 下拉选择框
-  | 'autoComplete'    // 自动完成
-  | 'colorPicker'     // 颜色选择器
-  | 'arrayData'       // 数组数据编辑器
-  | 'table'           // 表格数据编辑器
-  | 'map'             // 键值对数据编辑器
-  | 'fontSetting'     // 字体设置
-  | 'lineSetting'     // 线条设置
-  | 'pointSetting'    // 端点设置
-  | 'collapse';       // 折叠面板
-
-  /** 属性唯一标识符 Unique attribute identifier (supports dot notation like 'style.fontSize') */
-  attributeId?: string;
-
-  /** 显示名称 Display name shown in UI */
-  displayName?: string;
-
-  /** 描述信息（提示文本） Description or tooltip text */
-  info?: string;
-
-  /** 默认值 Initial/default value */
-  initialValue?: any;
-
-  /** 子配置项 Child configuration items (for nested structures) */
-  children?: ConfigItem[];
-
-  /** 是否显示 Whether to show this item (default: true) */
-  show?: boolean;
-
-  /** 组件特定配置 Component-specific configuration properties */
-  [k: string]: any;
+export type ConfigItem = AttributeComponentProps & {
+  type?: AttributeComponentProps['type']
+  | 'group' | 'input' | 'inputNumber' | 'checkbox' | 'slider'
+  | 'select' | 'autoComplete' | 'colorPicker' | 'arrayData'
+  | 'table' | 'map' | 'fontSetting' | 'lineSetting' | 'pointSetting' | 'collapse';
 };
 
 export type Action = { name: string; desc: string; params?: string };
@@ -141,7 +109,7 @@ export interface AxureProps {
  */
 export interface AxureHandle {
   /** 获取组件内部变量 */
-  getVar: (name: string) => any;
+  getVar: (name: string) => string | number | boolean | null | undefined;
   /** 触发组件动作
    * ⚠️ 强制规则：params 必须是字符串类型
    */

@@ -12,8 +12,22 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const HOST = 'localhost';
-const PORT = 51720;
+function resolveDevServerInfo() {
+  const devInfoPath = path.resolve(__dirname, '../.axhub/make/.dev-server-info.json');
+  try {
+    if (!fs.existsSync(devInfoPath)) return { host: 'localhost', port: 5173 };
+    const info = JSON.parse(fs.readFileSync(devInfoPath, 'utf8'));
+    const host = info && info.host ? info.host : 'localhost';
+    const port = info && info.port ? Number(info.port) : 5173;
+    return { host: host, port: port };
+  } catch (e) {
+    return { host: 'localhost', port: 5173 };
+  }
+}
+
+const devInfo = resolveDevServerInfo();
+const HOST = devInfo.host;
+const PORT = devInfo.port;
 
 function reviewCode(targetPath) {
   return new Promise((resolve, reject) => {

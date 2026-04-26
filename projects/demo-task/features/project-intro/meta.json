@@ -1,0 +1,9 @@
+{
+  "project": "demo-task",
+  "pageId": "project-intro",
+  "archivedAt": "20260425-manual",
+  "exportPath": "prototypes/project-intro",
+  "prdMoved": true,
+  "prdFileName": "project-intro-PRD.md",
+  "note": "project-intro is the engine entry prototype and stays in workbench; this archive serves as the canonical backup"
+}

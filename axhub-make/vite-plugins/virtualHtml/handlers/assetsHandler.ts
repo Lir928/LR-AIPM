@@ -2,6 +2,22 @@ import type { IncomingMessage, ServerResponse } from 'http';
 import fs from 'fs';
 import path from 'path';
 
+import { sendMaybeCompressedResponse } from '../../utils/httpResponseUtils';
+
+function hasVersionQuery(requestUrl: string) {
+  return /[?&]v=/.test(requestUrl);
+}
+
+function setNoStoreHeaders(res: ServerResponse) {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+}
+
+function setImmutableAssetHeaders(res: ServerResponse) {
+  res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+}
+
 export function handleAssetsRequest(req: IncomingMessage, res: ServerResponse): boolean {
   if (req.url && req.url.startsWith('/assets/')) {
     const pathname = req.url.split('?')[0];
@@ -23,10 +39,17 @@ export function handleAssetsRequest(req: IncomingMessage, res: ServerResponse): 
           '.svg': 'image/svg+xml',
           '.gif': 'image/gif'
         };
-        
-        res.setHeader('Content-Type', contentTypes[ext] || 'application/octet-stream');
+
+        if (hasVersionQuery(req.url)) {
+          setImmutableAssetHeaders(res);
+        } else {
+          setNoStoreHeaders(res);
+        }
         res.statusCode = 200;
-        res.end(content);
+        sendMaybeCompressedResponse(req, res, {
+          body: content,
+          contentType: contentTypes[ext] || 'application/octet-stream',
+        });
         console.log('[主项目] ✅ 成功返回 asset:', req.url);
         return true;
       } catch (err) {

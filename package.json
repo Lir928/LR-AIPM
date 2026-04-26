@@ -1,17 +1,36 @@
 {
-  "name": "ai-prototype-lab",
+  "name": "aipm-workflows",
   "version": "1.0.0",
   "private": true,
-  "description": "AI原型自动化试验场",
+  "description": "AIPM Workflows - 下一代 AI 驱动的产研自动化底座，从一句话需求到高保真原型的全流程自动化解决方案",
   "workspaces": [
+    "axhub-make",
     "projects/*"
   ],
   "scripts": {
     "switch": "node scripts/switch-project.js",
     "dev:axhub-make": "cd axhub-make && npm run dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "archive:prototype": "node scripts/archive-prototype.js",
+    "restore:prototype": "node scripts/restore-prototype.js",
+    "dev:project": "node scripts/start-project.js",
+    "test": "echo 'Tests not yet configured. See CONTRIBUTING.md for details.' && exit 0",
+    "check": "cd axhub-make && npm run check-ready",
+    "validate": "node scripts/validate-project.js",
+    "workflow:status": "node scripts/workflow-status.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "keywords": [
+    "aipm",
+    "ai",
+    "prototype",
+    "axhub",
+    "automation",
+    "prd",
+    "workflow"
+  ],
+  "author": "AIPM Workflows Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lir928/LR-AIPM"
+  }
 }

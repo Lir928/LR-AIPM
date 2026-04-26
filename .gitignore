@@ -2,10 +2,17 @@
 node_modules/
 
 # macOS system files
-.DS_Store
+**/.DS_Store
 
 # Local run state
 active_project.json
+.pipeline-state.json
+
+# Workbench (temporary materials)
+workbench/_incoming/
+workbench/_restore/
+workbench/_compare/
+workbench/_tmp/
 
 # Business projects (ignore all except demo-task)
 projects/*
@@ -13,7 +20,11 @@ projects/*
 
 # Build artifacts
 axhub-make/dist/
+axhub-make/admin/
 **/dist/
+
+# Lock files (root uses npm, axhub-make uses pnpm - keep root lock only)
+axhub-make/pnpm-lock.yaml
 
 # IDE and editor files
 .vscode/
@@ -32,3 +43,10 @@ logs
 .env.development.local
 .env.test.local
 .env.production.local
+
+# AI tool configs (may contain API keys)
+opencode.json
+.claude/
+
+# Archive temp directories
+**/.__archiving__/

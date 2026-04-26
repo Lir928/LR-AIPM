@@ -1,163 +1,160 @@
 # AIPM Workflows - 下一代 AI 驱动的产研自动化底座
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-LR--AIPM-blue.svg)](https://github.com/Lir928/LR-AIPM)
+
 > 从一句话需求到高保真原型的全流程自动化解决方案，让产研效率提升 10 倍
 
-## Core Philosophy
+## 项目概述
 
-我们的核心理念是「AI 驱动，一键生成」，通过 AI 的强大能力，构建从需求到原型的完整自动化闭环：
+AIPM Workflows 是一个革命性的 AI 驱动产研自动化平台，旨在打通从需求到原型的完整自动化链路。其核心哲学是「AI 驱动，一键生成」，通过构建从一句话需求到高保真原型的端到端闭环，彻底改变传统产品研发模式。
 
-1. **需求输入**：用户只需提供一句话需求
-2. **结构化成 PRD**：AI 自动将需求结构化为标准 PRD 文档
-3. **生成 Axhub Prompt**：基于 PRD 自动生成高质量的 Axhub Make 原型提示词
-4. **全自动原型生成**：AI 直接驱动 Axhub Make 引擎生成可交互的高保真原型页面
-5. **实时预览**：用户可直接在浏览器中查看和交互原型效果
+**核心流程：**
+需求输入 → 结构化PRD → Axhub Prompt → 自动原型生成 → 实时预览
 
-这种端到端的自动化流程，不仅极大地提高了开发效率，还保证了从需求到原型的一致性和质量。
+项目采用独特的 All-in-Axhub 架构，代码交付物即为 Axhub 原型页面，使所有研发技能直接在 Axhub 引擎内实现。
 
-## Prerequisites
+## 快速开始
 
-- **Trae IDE**：作为底层驱动环境，提供 AI 能力和流水线执行机制
-- **Node.js**：运行环境，用于启动 Axhub Make 引擎
-- **Git**：版本控制工具
-- **Axhub Make 引擎文件**：位于 `axhub-make/Axure-axhub-make引擎_RP11.rp`，必须先打开此文件以激活 Axhub Make 引擎
+### 环境准备
 
-## The 8 Workflows
-
-我们的核心流水线系统由 8 个精心设计的工作流组成：
-
-1. **01-现有资产盘点流水线**：深度分析老项目代码和文档，建立全局上下文
-2. **02-需求转PRD流水线**：将原始需求结构化为标准 PRD 并生成 Axhub Prompt
-3. **03-需求文档双向同步机制**：确保需求文档与 Prompt 的实时同步
-4. **04-全自动原型生成流水线**：读取 Axhub Prompt，直接在 Axhub Make 引擎中生成可交互的高保真原型页面
-5. **05-军规级代码审查与合并**：系统地调试、审查代码并生成更新日志
-6. **06-子端并行开发编排**：调度多个 AI 代理并行处理不同子端的开发任务
-7. **07-项目启动与预览流水线**：一键启动项目并打开 Axhub Make 预览
-8. **08-Axhub逻辑增强流水线**：调用研发专家技能，直接在 Axhub 引擎内重写原型代码，注入真实 CRUD 与业务逻辑。
-
-## 极速上手流程
-
-### 1. Clone 仓库
+1. 确保已安装 Node.js (v18+) 和 Git
+2. 获取项目代码：
 
 ```bash
 git clone https://github.com/Lir928/LR-AIPM
 cd LR-AIPM
 ```
 
-### 2. 安装依赖
+3. 安装依赖：
 
 ```bash
 npm install
 ```
 
-### 3. 启动项目
+### 启动项目
 
-**前提条件**：请先打开 `axhub-make/Axure-axhub-make引擎_RP11.rp` 文件以激活 Axhub Make 引擎。
+AIPM Workflows 包含两个主要服务：
 
-在 Trae IDE 对话框中输入以下命令：
+**启动原型引擎 (Axhub Make)**:
+```bash
+npm run dev:axhub-make
+```
 
-- 启动示例项目：`启动demo-task`
+启动后访问浏览器输出的 Local URL，例如：
+- 项目介绍页：`http://localhost:{port}/prototypes/project-intro`
+- 原型页面：`http://localhost:{port}/prototypes/[页面ID]`
 
-### 4. 执行需求梳理
+**启动示例项目 (demo-task)**:
+```bash
+npm run dev:project -- demo-task --install
+```
 
-在 Trae IDE 对话框中输入：
+### 核心使用流程
 
-- `执行需求梳理`
+**新增页面**（最简单的方式）：
+1. 在 Trae IDE 中输入：`执行需求梳理`
+2. AI 自动生成 PRD 和 Prompt
+3. 输入：`执行原型生成`
+4. AI 自动生成可交互原型
+5. 在浏览器中查看实时效果
 
-AI 将自动生成标准 PRD 文档和 Axhub Prompt。
+**升级旧页面**（从外部材料）：
+1. 将材料放入 `workbench/_incoming/YYYY-MM-DD/<页面名>/`
+2. 执行 `执行需求梳理` 生成 PRD
+3. 执行 `执行原型生成` 生成原型
+4. 根据需要调整原型并归档
 
-### 5. 执行原型生成
+## 核心流水线体系
 
-在 Trae IDE 对话框中输入：
+AIPM Workflows 提供 10 条核心自动化流水线（编号不连续，06 号保留待扩展）：
 
-- `执行原型生成`
+### 主线必经（必须执行）
+- **00** - 统一页面开发：总导航页，统一处理新增/升级/迭代
+- **02** - 需求转PRD：AI 生成 PRD 和 Prompt
+- **07** - 启动预览：启动 Axhub Make 预览环境
+- **04** - 原型生成：AI 生成含交互的原型
+- **09** - 归档升级：完成时归档，需要时恢复
+- **10** - 页面还原：精确还原旧页面（Chrome扩展导出包）
 
-AI 将直接驱动 Axhub Make 引擎生成高保真原型页面。
+### 可选流程（按需执行）
+- **01** - 资产盘点：复杂旧系统资产分析
+- **03** - Prompt同步：PRD 修改后同步 Prompt
+- **05** - 代码审查：交付前形式化审查
+- **08** - 原型增强：添加复杂交互功能
 
-### 6. 实时预览
-
-打开浏览器，访问 AI 提供的预览地址（通常为 http://localhost:51724/prototypes/[功能名称英文简写]），即可查看和交互原型效果。
-
-## 目录设计哲学
-
-我们采用「扁平化+前缀」命名法，确保项目结构清晰、易于管理：
-
-- **文档命名**：`YYYYMMDD-功能名称.md`，存放在 `projects/[项目名称]/docs/` 一级目录
-- **Prompt 命名**：`YYYYMMDD-功能名称-Prompt.md`，存放在 `projects/[项目名称]/prompts/` 一级目录
-- **原型页面**：AI 生成的 Axhub Make 原型页面，存放在 `axhub-make/src/prototypes/[功能名称英文简写]/` 目录
-- **遗留资产**：旧系统的代码和文档，存放在 `projects/[项目名称]/legacy-assets/` 目录
-
-所有的产物通过 `YYYYMMDD-功能名称` 的前缀来建立关联，确保结构清晰且易于管理。
-
-## 项目结构
+## 目录结构
 
 ```
-├── .workflows/          # 流水线配置文件
-├── .skills/             # 核心技能库
-├── .skills_archive/     # 封存技能库
-├── axhub-make/          # Axhub Make 原型渲染引擎
-│   ├── src/             # Axhub Make 源码
-│   │   ├── prototypes/  # 原型页面目录
-├── projects/            # 业务模块目录
-│   ├── demo-task/       # 示例项目
-│   │   ├── docs/        # 文档目录
-│   │   ├── prompts/     # 提示词目录
-│   │   └── legacy-assets/ # 遗留资产目录
-├── scripts/             # 脚本目录
-├── active_project.json  # 当前激活的项目配置
-├── package.json         # 项目配置文件
-├── README.md            # 项目说明文档
-├── LICENSE              # 许可证文件
-└── .gitignore           # Git 忽略文件
+LR-AIPM/
+├── axhub-make/              # Axhub 原型引擎
+│   └── src/
+│       ├── prototypes/      # 原型页面（工作台）
+│       └── docs/           # 工作文档
+├── projects/               # 业务项目归档
+│   └── [projectName]/
+│       ├── features/       # 功能正本归档
+│       ├── docs/          # 项目文档
+│       └── legacy-assets/ # 遗留资产
+├── workbench/              # 工作台目录
+│   ├── _incoming/          # 外部输入材料
+│   ├── _restore/           # 还原/解包中间产物
+│   ├── _compare/           # 对比用证据
+│   └── _tmp/               # 纯临时文件
+├── .skills/               # AI 技能库
+└── scripts/               # 开发脚本
 ```
 
 ## 核心特性
 
-- **全流程自动化**：从需求到原型的端到端自动化
-- **高保真原型**：生成的原型页面包含完整的交互功能和响应式设计
-- **极速预览**：直接在浏览器中实时查看和交互原型效果
-- **灵活可扩展**：可根据业务需求自定义流水线和技能
-- **易于使用**：通过简单的触发词即可启动复杂流程
-- **标准化管理**：统一的文件命名和目录结构
-- **All-in-Axhub 架构**：本项目采用 All-in-Axhub 架构，代码最终交付物即为 Axhub 原型页面，所有研发技能直接在 Axhub 引擎内施展魔法。
+- **全流程自动化**：从需求到原型完全自动化
+- **高保真交互原型**：包含复杂交互和状态管理
+- **AI 驱动**：通过 Trae IDE 实现智能处理
+- **实时预览**：即时查看原型变更效果
+- **版本管理**：完善的归档与恢复机制
+- **All-in-Axhub 架构**：统一的研发交付模式
 
 ## 技术栈
 
-- **前端**：React
-- **AI 驱动**：Trae IDE AI 能力
-- **原型工具**：Axhub Make
+- **前端框架**：React 18 + TypeScript
+- **原型引擎**：Axhub Make
+- **AI 驱动**：Trae IDE
+- **构建工具**：Node.js + npm
 - **版本控制**：Git
-- **构建工具**：Node.js
 
-## 示例项目
+## 常见问题 (FAQ)
 
-项目中包含一个 `demo-task` 示例项目，用于演示整个流程的使用方法。通过执行以下命令，可以快速体验完整的产研自动化流程：
+**Q: 项目启动失败怎么办？**
+A: 确保 Node.js 版本 >= 18，并检查 axhub-make 目录下是否已安装依赖。
 
-1. `启动demo-task`
-2. `执行需求梳理`
-3. `执行原型生成`
-4. 打开浏览器查看预览效果
+**Q: 如何添加新的流水线？**
+A: 在 `.workflows/` 目录下创建新的 Markdown 文件，并在 `.workflows/README.md` 中注册。
 
-## 贡献指南
+**Q: 原型页面如何归档？**
+A: 使用 `npm run archive:prototype -- <projectName> <pageId>` 命令。如果 dev server 未启动，可添加 `--offline` 参数进行离线归档。
 
-我们欢迎社区贡献，无论是功能开发、Bug 修复还是文档改进。贡献流程如下：
+**Q: 归档后如何恢复？**
+A: 使用 `npm run restore:prototype -- <projectName> <pageId>` 命令。如工作台已有同名原型，添加 `--force` 覆盖。
 
-1. Fork 项目仓库
-2. 创建功能分支
-3. 提交代码
-4. 发起 Pull Request
-5. 代码审查
-6. 合并代码
+**Q: 如何查看流水线状态？**
+A: 使用 `npm run workflow:status` 命令查看所有页面的当前状态。
+
+**Q: 如何验证项目完整性？**
+A: 使用 `npm run validate` 命令检查项目结构和文件完整性。
+
+## 贡献
+
+我们欢迎社区贡献！请查看 [CONTRIBUTING.md](CONTRIBUTING.md) 了解如何参与项目开发。
+
+## 更新日志
+
+查看 [CHANGELOG.md](CHANGELOG.md) 了解项目的版本历史。
 
 ## 许可证
 
-本项目采用 MIT 许可证，详见 LICENSE 文件。
+本项目采用 MIT 许可证。
 
-## 致谢 (Acknowledgments)
+## 致谢
 
-我们向以下提供支持和灵感的平台与社区致以诚挚的感谢：
-
-- **特别鸣谢** [Axhub Make](https://axhub.im/make/) 提供强大的原型渲染引擎与高保真 UI 转换能力，使本项目的“AI 驱动，一键生成”闭环成为可能。
-- **感谢** Trae IDE 提供的原生 AI 驱动力与极佳的智能上下文支持，为整个产研流程注入了强大的智能能力。
-- **感谢**所有开源社区的先行者为 AI 产研工程化提供的灵感与基石，正是站在巨人的肩膀上，我们才能走得更远。
-
-开源精神让技术不断进步，我们也期待与社区一起，共同探索 AI 驱动的产研自动化的无限可能。
+特别感谢 [Axhub Make](https://axhub.im/make/) 提供的原型引擎支持和 [Trae IDE](https://tracelabs.org) 提供的 AI 能力，使本项目成为可能。

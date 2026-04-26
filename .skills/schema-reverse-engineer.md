@@ -18,7 +18,7 @@ schema-reverse-engineer
 - 可选参数：数据定义类型、数据库类型、分析深度
 
 ## 输出
-- 在 `projects/[项目名称]/docs/` 生成 `02-现存数据字典.md` 文件
+- 在 `projects/[项目名称]/legacy-assets/reports/` 生成 `02-现存数据字典.md` 文件
 - 包含核心实体的详细数据字典
 - 包含实体关系图（Mermaid 格式）
 - 包含字段类型、约束、默认值等信息

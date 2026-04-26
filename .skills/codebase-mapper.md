@@ -18,7 +18,7 @@ codebase-mapper
 - 可选参数：代码语言、框架类型、分析深度
 
 ## 输出
-- 在 `projects/[项目名称]/docs/` 生成 `01-系统现存架构图.md` 文件
+- 在 `projects/[项目名称]/legacy-assets/reports/` 生成 `01-系统现存架构图.md` 文件
 - 包含系统整体架构图（Mermaid 格式）
 - 包含模块依赖关系图（Mermaid 格式）
 - 包含核心模块的职责说明

@@ -1,7 +1,11 @@
 {
   "schemaVersion": 1,
   "neverOverwrite": [
-    "src/**",
+    "src/prototypes/**",
+    "src/themes/**",
+    "src/components/**",
+    "src/docs/**",
+    "src/database/**",
     "assets/**"
   ],
   "alwaysOverwrite": [

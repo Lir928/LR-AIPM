@@ -126,7 +126,7 @@ const Component = forwardRef<AxureHandle, AxureProps>(function AxhubButton(inner
   const setMessage = messageState[1];
 
   // 使用 useCallback 优化性能，包含错误处理
-  const emitEvent = useCallback(function (eventName: string, payload?: any) {
+  const emitEvent = useCallback(function (eventName: string, payload?: string) {
     try {
       onEventHandler(eventName, payload);
     } catch (error) {
@@ -134,18 +134,17 @@ const Component = forwardRef<AxureHandle, AxureProps>(function AxhubButton(inner
     }
   }, [onEventHandler]);
 
-  // 使用 useCallback 包装所有回调函数，避免在 JSX 中直接定义函数
   const incrementCount = useCallback(function () {
     setCount(function (prev) {
       const newValue = prev + 1;
-      emitEvent('onCountChange', { count: newValue, action: 'increment' });
+      emitEvent('onCountChange', JSON.stringify({ count: newValue, action: 'increment' }));
       return newValue;
     });
   }, [emitEvent]);
 
   const resetCount = useCallback(function () {
     setCount(initialCount);
-    emitEvent('onCountChange', { count: initialCount, action: 'reset' });
+    emitEvent('onCountChange', JSON.stringify({ count: initialCount, action: 'reset' }));
   }, [initialCount, emitEvent]);
 
   const updateMessage = useCallback(function (params?: any) {
@@ -155,7 +154,7 @@ const Component = forwardRef<AxureHandle, AxureProps>(function AxhubButton(inner
   }, []);
 
   const handlePrimaryClick = useCallback(function () {
-    emitEvent('onClick', { count });
+    emitEvent('onClick', JSON.stringify({ count }));
     incrementCount();
   }, [count, emitEvent, incrementCount]);
 

@@ -13,6 +13,8 @@ export interface ScannedEntryItem {
   specUrl: string;
   jsUrl: string;
   filePath: string;
+  isReference?: boolean;
+  hasSubPages?: boolean;
 }
 
 export interface EntriesFileData extends Record<string, unknown> {
@@ -65,8 +67,7 @@ function scanGroup(projectRoot: string, group: ScannableGroup): {
   const names = fs
     .readdirSync(groupDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
-    .map((entry) => entry.name)
-    .sort((a, b) => a.localeCompare(b));
+    .map((entry) => entry.name);
 
   for (const name of names) {
     const folderPath = path.join(groupDir, name);
@@ -79,7 +80,7 @@ function scanGroup(projectRoot: string, group: ScannableGroup): {
     entries.js[key] = jsEntry;
     entries.html[key] = path.join(folderPath, 'index.html');
 
-    const displayName = getDisplayName(jsEntry) || name;
+    let displayName = getDisplayName(jsEntry) || name;
     const encodedKey = encodeUrlPathSegments(key);
     items.push({
       name,
@@ -88,10 +89,15 @@ function scanGroup(projectRoot: string, group: ScannableGroup): {
       specUrl: `/${encodedKey}/spec`,
       jsUrl: `/build/${encodedKey}.js`,
       filePath: jsEntry,
+      isReference: name.startsWith('ref-'),
+      hasSubPages: group === 'prototypes' && fs.existsSync(path.join(folderPath, 'pages.json')),
     });
   }
 
-  return { entries, items };
+  return {
+    entries,
+    items,
+  };
 }
 
 export function scanEntries(projectRoot: string): EntryScanResult {

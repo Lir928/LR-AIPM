@@ -1,23 +1,22 @@
-// react-dom-shim.js
-const RD = window.ReactDOM;
+const RD = window.ReactDOM || {};
 
-export default RD;
+if (!window.ReactDOM) {
+  console.error('[react-dom-shim] window.ReactDOM is not available. Ensure ReactDOM is loaded via CDN or external script before this module.');
+}
 
-// ReactDOM 18+ (createRoot / hydrateRoot)
+export default window.ReactDOM;
+
 export const {
   createRoot,
   hydrateRoot,
 
-  // ReactDOM 17 兼容 API（一些环境仍然可能需要）
   render,
   hydrate,
   unmountComponentAtNode,
   findDOMNode,
 
-  // Server side features (如果 CDN 提供)
   createPortal,
 
-  // React 18 Transition API（可能存在）
   flushSync,
   unstable_batchedUpdates,
   unstable_renderSubtreeIntoContainer,

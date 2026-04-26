@@ -12,6 +12,9 @@
  */
 
 import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // 从命令行参数获取要检查的路径
 const targetPath = process.argv[2];
@@ -24,9 +27,26 @@ if (!targetPath) {
   process.exit(1);
 }
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function resolveDevServerInfo() {
+  const devInfoPath = path.resolve(__dirname, '../.axhub/make/.dev-server-info.json');
+  try {
+    if (!fs.existsSync(devInfoPath)) return { host: 'localhost', port: 5173 };
+    const info = JSON.parse(fs.readFileSync(devInfoPath, 'utf8'));
+    const host = info && info.host ? info.host : 'localhost';
+    const port = info && info.port ? Number(info.port) : 5173;
+    return { host: host, port: port };
+  } catch (e) {
+    return { host: 'localhost', port: 5173 };
+  }
+}
+
 // 配置
-const HOST = 'localhost';
-const PORT = 51720;
+const devInfo = resolveDevServerInfo();
+const HOST = devInfo.host;
+const PORT = devInfo.port;
 
 // 发送检查请求
 function reviewCode(targetPath) {

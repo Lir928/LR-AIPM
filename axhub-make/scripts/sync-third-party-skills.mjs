@@ -24,7 +24,7 @@ const SKILL_SOURCES = [
   },
   {
     target: 'skills/third-party/implement-design/SKILL.md',
-    url: 'https://raw.githubusercontent.com/figma/mcp-server-guide/main/skills/implement-design/SKILL.md',
+    url: 'https://raw.githubusercontent.com/openai/skills/main/skills/.curated/figma-implement-design/SKILL.md',
   },
   {
     target: 'skills/third-party/baoyu-image-gen/SKILL.md',
@@ -72,7 +72,7 @@ const SKILL_SOURCES = [
   },
   {
     target: 'skills/third-party/research/SKILL.md',
-    url: 'https://raw.githubusercontent.com/tavily-ai/skills/main/skills/tavily/research/SKILL.md',
+    url: 'https://raw.githubusercontent.com/tychohq/agent-skills/main/skills/research/SKILL.md',
   },
   {
     target: 'skills/third-party/user-story-writing/SKILL.md',

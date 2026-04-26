@@ -1,7 +1,11 @@
-const R = window.React;
+const R = window.React || {};
 const RJSXRuntime = window.ReactJSXRuntime || {};
 
-export default R;
+if (!window.React) {
+  console.error('[react-shim] window.React is not available. Ensure React is loaded via CDN or external script before this module.');
+}
+
+export default window.React;
 
 export const {
   useState,
@@ -41,7 +45,6 @@ export const {
   version,
 } = R;
 
-// JSX Runtime exports for modern React
-export const jsx = RJSXRuntime.jsx || createElement;
-export const jsxs = RJSXRuntime.jsxs || createElement;
-export const jsxDEV = RJSXRuntime.jsxDEV || createElement;
+export const jsx = RJSXRuntime.jsx || R.createElement;
+export const jsxs = RJSXRuntime.jsxs || R.createElement;
+export const jsxDEV = RJSXRuntime.jsxDEV || R.createElement;
